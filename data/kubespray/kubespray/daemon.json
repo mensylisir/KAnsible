@@ -1,0 +1,29 @@
+{
+  "registry-mirrors": [
+    "https://qjzfwfvb.mirror.aliyuncs.com"
+  ],
+  "insecure-registries": [
+    "harbor.dev.rdev.tech",
+    "192.168.80.22",
+    "192.168.80.78",
+    "192.168.80.77",
+    "192.168.80.54:8081"
+  ],
+  "default-address-pools": [
+    {
+      "base": "10.10.0.0/16",
+      "size": 24
+    }
+  ],
+  "debug": false,
+  "experimental": false,
+  "features": {
+    "buildkit": true
+  },
+  "builder": {
+    "gc": {
+      "enabled": true,
+      "defaultKeepStorage": "20GB"
+    }
+  }
+}
