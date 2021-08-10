@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// 连接服务器
-	conn, err := grpc.Dial(":8080", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:12800", grpc.WithInsecure())
 	if err != nil {
 		fmt.Printf("连接服务端失败: %s\n", err)
 		return
@@ -37,6 +37,28 @@ func main() {
 		return
 	}
 	fmt.Println(r.Message)
+
+
+	bbb := &api.PlayRequests{
+		Message: "distribute",
+	}
+
+	r2, err := c.StreamRunPlaybook(context.Background(), bbb)
+	if err != nil {
+		fmt.Printf("调用服务端代码失败: %s", err)
+		return
+	}
+	for {
+		bb, err := r2.Recv()
+		if err != nil {
+			log.Fatalf("Error: %v\n", err)
+		}
+		data := bb.GetRes()
+		fmt.Println(data)
+		if "success" == data || "failure" == data {
+			break
+		}
+	}
 
 	aaa := &api.PlayRequests{
 		Message: "install",
