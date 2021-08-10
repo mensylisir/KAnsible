@@ -1,0 +1,32 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+service AnsibleServer {
+  rpc GenerateYaml (InventoryRequest) returns (InventoryReply) {}
+  rpc RunPlaybook (PlayRequests) returns (PlayReply) {}
+  rpc StreamRunPlaybook(PlayRequests) returns (stream PlayReply) {}
+}
+
+message PlayRequests {
+  string message = 1;
+}
+
+message PlayReply {
+  string res = 1;
+}
+
+message InventoryRequest {
+  repeated Node item = 1;
+}
+
+message Node {
+    string ip = 1;
+    string port = 2;
+    string password = 3;
+    string name = 4;
+    string role = 5;
+}
+
+message InventoryReply {
+  string message = 1;
+}

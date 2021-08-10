@@ -1,0 +1,8 @@
+bind:
+  host: 0.0.0.0
+  port: 8080
+ansible:
+  conf: /etc/ansible/hosts
+kubespray:
+  inventory: data/kubespray/kubespray/inventory/mycluster/hosts.yaml
+  yaml: data/kubespray/kubespray/cluster.yml
