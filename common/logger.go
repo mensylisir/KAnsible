@@ -1,7 +1,7 @@
 package common
 
 import (
-	"KAnsible/constant"
+	"github.com/mensylisir/KAnsible/constant"
 	"fmt"
 	"io"
 	"os"

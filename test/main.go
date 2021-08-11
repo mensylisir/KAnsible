@@ -1,8 +1,8 @@
 package main
 
 import (
-	"KAnsible/ansible"
 	"fmt"
+	"github.com/mensylisir/KAnsible/ansible"
 )
 
 func main() {

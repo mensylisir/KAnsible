@@ -1,8 +1,8 @@
 package ansible
 
 import (
-	util "KAnsible/common"
-	"KAnsible/constant"
+	util "github.com/mensylisir/KAnsible/common"
+	"github.com/mensylisir/KAnsible/constant"
 	"fmt"
 )
 

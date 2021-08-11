@@ -1,10 +1,10 @@
 package main
 
 import (
-	"KAnsible/ansible"
-	"KAnsible/api"
-	"KAnsible/config"
-	"KAnsible/constant"
+	"github.com/mensylisir/KAnsible/ansible"
+	"github.com/mensylisir/KAnsible/api"
+	"github.com/mensylisir/KAnsible/config"
+	"github.com/mensylisir/KAnsible/constant"
 	"context"
 	"errors"
 	"fmt"

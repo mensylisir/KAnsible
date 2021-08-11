@@ -1,7 +1,7 @@
 package ansible
 
 import (
-	"KAnsible/constant"
+	"github.com/mensylisir/KAnsible/constant"
 )
 
 func InstallKubernetes(revMsg chan string) bool {

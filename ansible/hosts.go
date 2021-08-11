@@ -1,10 +1,10 @@
 package ansible
 
 import (
-	"KAnsible/api"
-	file "KAnsible/common"
-	"KAnsible/config"
-	"KAnsible/constant"
+	"github.com/mensylisir/KAnsible/api"
+	file "github.com/mensylisir/KAnsible/common"
+	"github.com/mensylisir/KAnsible/config"
+	"github.com/mensylisir/KAnsible/constant"
 	"encoding/json"
 	"fmt"
 	"gopkg.in/yaml.v2"

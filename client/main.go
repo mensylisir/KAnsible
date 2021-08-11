@@ -1,9 +1,9 @@
 package main
 
 import (
-	"KAnsible/api"
 	"context"
 	"fmt"
+	"github.com/mensylisir/KAnsible/api"
 	"google.golang.org/grpc"
 	"log"
 )

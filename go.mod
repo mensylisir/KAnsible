@@ -1,4 +1,4 @@
-module KAnsible
+module github.com/mensylisir/KAnsible
 
 go 1.15
 
