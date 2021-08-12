@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/mensylisir/KAnsible/api"
+	"github.com/mensylisir/KAnsible/kapi"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -17,16 +17,23 @@ func main() {
 	}
 	defer conn.Close()
 	// 新建一个客户端
-	c := api.NewAnsibleServerClient(conn)
+	c := kapi.NewAnsibleServerClient(conn)
 
-	helloReq := &api.InventoryRequest{
-		Item: []*api.Node{
+	helloReq := &kapi.InventoryRequest{
+		Item: []*kapi.Node{
+			{
+				Ip:       "192.168.7.127",
+				Port:     "22",
+				Password: "Def@u1tpwd",
+				Role:     "master",
+				Name:     "node1",
+			},
 			{
 				Ip:       "192.168.7.128",
 				Port:     "22",
-				Password: "xiaoming98",
-				Role:     "master",
-				Name:     "node1",
+				Password: "Def@u1tpwd",
+				Role:     "worker",
+				Name:     "node2",
 			},
 		},
 	}
@@ -39,7 +46,7 @@ func main() {
 	fmt.Println(r.Message)
 
 
-	bbb := &api.PlayRequests{
+	bbb := &kapi.PlayRequests{
 		Message: "distribute",
 	}
 
@@ -55,12 +62,15 @@ func main() {
 		}
 		data := bb.GetRes()
 		fmt.Println(data)
-		if "success" == data || "failure" == data {
+		if "success" == data {
 			break
+		}
+		if  "failure" == data {
+			return
 		}
 	}
 
-	aaa := &api.PlayRequests{
+	aaa := &kapi.PlayRequests{
 		Message: "install",
 	}
 

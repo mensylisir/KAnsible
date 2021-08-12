@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/mensylisir/KAnsible/ansible"
-	"github.com/mensylisir/KAnsible/api"
-	"github.com/mensylisir/KAnsible/config"
-	"github.com/mensylisir/KAnsible/constant"
 	"context"
 	"errors"
 	"fmt"
+	"github.com/mensylisir/KAnsible/ansible"
+	"github.com/mensylisir/KAnsible/config"
+	"github.com/mensylisir/KAnsible/constant"
+	"github.com/mensylisir/KAnsible/kapi"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -16,7 +16,7 @@ import (
 
 type server struct{}
 
-func (s *server) StreamRunPlaybook(requests *api.PlayRequests, response api.AnsibleServer_StreamRunPlaybookServer) error {
+func (s *server) StreamRunPlaybook(requests *kapi.PlayRequests, response kapi.AnsibleServer_StreamRunPlaybookServer) error {
 	config.GetConfig()
 	revMsg := make(chan string)
 	switch requests.Message {
@@ -35,7 +35,7 @@ func (s *server) StreamRunPlaybook(requests *api.PlayRequests, response api.Ansi
 	}
 	for {
 		data := <-revMsg
-		err := response.Send(&api.PlayReply{
+		err := response.Send(&kapi.PlayReply{
 			Res: data,
 		})
 		if err != nil {
@@ -48,10 +48,10 @@ func (s *server) StreamRunPlaybook(requests *api.PlayRequests, response api.Ansi
 	return nil
 }
 
-func (s *server) RunPlaybook(ctx context.Context, requests *api.PlayRequests) (*api.PlayReply, error) {
+func (s *server) RunPlaybook(ctx context.Context, requests *kapi.PlayRequests) (*kapi.PlayReply, error) {
 	config.GetConfig()
 	revMsg := make(chan string)
-	result := &api.PlayReply{}
+	result := &kapi.PlayReply{}
 	inventory := constant.HostForKubernetes
 	installScript := constant.KubernetesInstallScript
 	go ansible.RunPlaybook(revMsg, inventory, installScript)
@@ -65,18 +65,18 @@ func (s *server) RunPlaybook(ctx context.Context, requests *api.PlayRequests) (*
 	return result, nil
 }
 
-func (s *server) GenerateYaml(ctx context.Context, in *api.InventoryRequest) (*api.InventoryReply, error) {
+func (s *server) GenerateYaml(ctx context.Context, in *kapi.InventoryRequest) (*kapi.InventoryReply, error) {
 	err := ansible.GenHosts(in)
 	if err != nil {
         fmt.Printf("Error: %v\n", err)
-		return &api.InventoryReply{Message: "Generate hosts failure "}, err
+		return &kapi.InventoryReply{Message: "Generate hosts failure "}, err
 	}
 	err = ansible.GenYamlHost(in)
 	if err != nil {
         fmt.Printf("Error: %v\n", err)
-		return &api.InventoryReply{Message: "Generate yaml failure "}, err
+		return &kapi.InventoryReply{Message: "Generate yaml failure "}, err
 	}
-	return &api.InventoryReply{Message: "Generate hosts success "}, nil
+	return &kapi.InventoryReply{Message: "Generate yaml success "}, nil
 }
 
 func main() {
@@ -90,7 +90,7 @@ func main() {
 		return
 	}
 	s := grpc.NewServer()
-	api.RegisterAnsibleServerServer(s, &server{})
+	kapi.RegisterAnsibleServerServer(s, &server{})
 	reflection.Register(s)
 	err = s.Serve(lis)
 	if err != nil {

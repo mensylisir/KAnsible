@@ -1,0 +1,183 @@
+
+
+PLAY [测试ansible任务] *************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.7.128]
+
+TASK [Set authorized key taken from file] **************************************
+ok: [192.168.7.128]
+
+PLAY RECAP *********************************************************************
+192.168.7.128              : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Command execution success
+[DEPRECATION WARNING]: The TRANSFORM_INVALID_GROUP_CHARS settings is set to 
+allow bad characters in group names by default, this will change, but still be 
+user configurable on deprecation. This feature will be removed in version 2.10.
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+[WARNING]: Invalid characters were found in group names but not replaced, use
+-vvvv to see details
+
+PLAY [localhost] ***************************************************************
+
+TASK [Check 2.9.0 <= Ansible version < 2.10.0] *********************************
+ok: [localhost] => {
+[WARNING]: Could not match supplied host pattern, ignoring: bastion
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [bastion[0]] **************************************************************
+skipping: no hosts matched
+
+PLAY [k8s-cluster:etcd] ********************************************************
+
+TASK [download : prep_download | Set a few facts] ******************************
+skipping: [node1]
+
+TASK [download : prep_download | Set image info command for containerd and crio] ***
+skipping: [node1]
+
+TASK [download : prep_download | Set image info command for containerd and crio on localhost] ***
+skipping: [node1]
+
+TASK [download : prep_download | On localhost, check if passwordless root is possible] ***
+skipping: [node1]
+
+TASK [download : prep_download | On localhost, check if user has access to docker without using sudo] ***
+skipping: [node1]
+
+TASK [download : prep_download | Parse the outputs of the previous commands] ***
+skipping: [node1]
+
+TASK [download : prep_download | Check that local user is in group or can become root] ***
+skipping: [node1]
+
+TASK [download : prep_download | Register docker images info] ******************
+skipping: [node1]
+
+TASK [download : prep_download | Create staging directory on remote node] ******
+skipping: [node1]
+
+TASK [download : prep_download | Create local cache for files and images on control node] ***
+skipping: [node1]
+
+TASK [container-engine/crictl : install crictĺ] ********************************
+skipping: [node1]
+
+TASK [download : download | Get kubeadm binary and list of required images] ****
+skipping: [node1]
+
+TASK [download : download | Download files / images] ***************************
+skipping: [node1]
+
+TASK [kubespray-defaults : Configure defaults] *********************************
+ok: [node1] => {
+    "msg": "Check roles/kubespray-defaults/defaults/main.yml"
+}
+
+TASK [kubespray-defaults : Set up proxy environment] ***************************
+ok: [node1]
+
+TASK [kubespray-defaults : Gather ansible_default_ipv4 from all hosts] *********
+skipping: [node1] => (item=node1) 
+skipping: [node1] => (item=node1) 
+
+TASK [kubespray-defaults : create fallback_ips_base] ***************************
+skipping: [node1]
+
+TASK [kubespray-defaults : set fallback_ips] ***********************************
+skipping: [node1]
+
+TASK [kubespray-defaults : Set no_proxy to all assigned cluster IPs and hostnames] ***
+skipping: [node1]
+
+TASK [kubespray-defaults : Populates no_proxy to all hosts] ********************
+skipping: [node1]
+
+TASK [bootstrap-os : Fetch /etc/os-release] ************************************
+ok: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+included: /mnt/d/Workspace/KAnsible/data/kubespray/kubespray/roles/bootstrap-os/tasks/bootstrap-debian.yml for node1
+
+TASK [bootstrap-os : Check if bootstrap is needed] *****************************
+ok: [node1]
+
+TASK [bootstrap-os : Check http::proxy in apt configuration files] *************
+ok: [node1]
+
+TASK [bootstrap-os : Add http_proxy to /etc/apt/apt.conf if http_proxy is defined] ***
+skipping: [node1]
+
+TASK [bootstrap-os : Check https::proxy in apt configuration files] ************
+ok: [node1]
+
+TASK [bootstrap-os : Add https_proxy to /etc/apt/apt.conf if https_proxy is defined] ***
+skipping: [node1]
+
+TASK [bootstrap-os : Check Network Name Resolution configuration] **************
+skipping: [node1]
+
+TASK [bootstrap-os : Change Network Name Resolution configuration] *************
+skipping: [node1]
+
+TASK [bootstrap-os : Restart systemd-resolved service] *************************
+skipping: [node1]
+
+TASK [bootstrap-os : Install python3] ******************************************
+skipping: [node1]
+
+TASK [bootstrap-os : Set the ansible_python_interpreter fact] ******************
+ok: [node1]
+
+TASK [bootstrap-os : Install dbus for the hostname module] *********************
+ok: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : include_tasks] ********************************************
+skipping: [node1]
+
+TASK [bootstrap-os : Create remote_tmp for it is used by another module] *******
+ok: [node1]
+
+TASK [bootstrap-os : Gather host facts to get ansible_os_family] ***************
+ok: [node1]
+
+TASK [bootstrap-os : Assign inventory name to unconfigured hostnames (non-CoreOS, non-Flatcar, Suse and ClearLinux)] ***
+ok: [node1]
+
+TASK [bootstrap-os : Assign inventory name to unconfigured hostnames (CoreOS, Flatcar, Suse and ClearLinux only)] ***
+skipping: [node1]
+
+TASK [bootstrap-os : Update hostname fact (CoreOS, Flatcar, Suse and ClearLinux only)] ***
+skipping: [node1]
+
+TASK [bootstrap-os : Install ceph-commmon package] *****************************
+skipping: [node1]
+
+TASK [bootstrap-os : Ensure bash_completion.d folder exists] *******************
+ok: [node1]
+
+PLAY [Gather facts] ************************************************************
+
+TASK [Gather minimal facts] ****************************************************

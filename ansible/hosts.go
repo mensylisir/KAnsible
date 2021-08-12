@@ -1,12 +1,12 @@
 package ansible
 
 import (
-	"github.com/mensylisir/KAnsible/api"
+	"encoding/json"
+	"fmt"
 	file "github.com/mensylisir/KAnsible/common"
 	"github.com/mensylisir/KAnsible/config"
 	"github.com/mensylisir/KAnsible/constant"
-	"encoding/json"
-	"fmt"
+	"github.com/mensylisir/KAnsible/kapi"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"strconv"
@@ -34,7 +34,7 @@ func (jst *JsonStruct) Load(data []byte, v interface{}) {
 	}
 }
 
-func GenNode(nodes []*api.Node) map[string]interface{} {
+func GenNode(nodes []*kapi.Node) map[string]interface{} {
 	ansibleHosts := make(map[string]interface{})
 	for _, node := range nodes {
 		ansibleNode := make(map[string]interface{})
@@ -48,7 +48,7 @@ func GenNode(nodes []*api.Node) map[string]interface{} {
 	return ansibleHosts
 }
 
-func GenChildren(nodes []*api.Node) map[string]interface{} {
+func GenChildren(nodes []*kapi.Node) map[string]interface{} {
 
 	var t interface{} = nil
 
@@ -104,7 +104,7 @@ func Write2Yaml(content map[string]interface{}, inventory string) {
 	}
 }
 
-func GenYamlHost(request *api.InventoryRequest) error {
+func GenYamlHost(request *kapi.InventoryRequest) error {
 	config.GetConfig()
 	inventory := constant.HostForKubernetes
 	items := request.GetItem()
@@ -119,7 +119,7 @@ func GenYamlHost(request *api.InventoryRequest) error {
 	return nil
 }
 
-func GenHosts(request *api.InventoryRequest) error {
+func GenHosts(request *kapi.InventoryRequest) error {
 	config.GetConfig()
 	ansibleHosts := constant.AnsibleHosts
 	items := request.GetItem()

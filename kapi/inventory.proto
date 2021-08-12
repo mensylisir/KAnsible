@@ -1,6 +1,6 @@
 syntax = "proto3";
-package api;
-option go_package = ".;api";
+package kapi;
+option go_package = ".;kapi";
 service AnsibleServer {
   rpc GenerateYaml (InventoryRequest) returns (InventoryReply) {}
   rpc RunPlaybook (PlayRequests) returns (PlayReply) {}

@@ -26,6 +26,9 @@ RUN mkdir /root/.ssh  \
     && echo "\tUserKnownHostsFile /dev/null" >> /root/.ssh/config \
     && ssh-keygen -t rsa -q -P "" -f ~/.ssh/id_rsa
 
+
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
 RUN echo 'server/kansible' >> entrypoint.sh
 EXPOSE 8080
 CMD ["sh","entrypoint.sh"]
