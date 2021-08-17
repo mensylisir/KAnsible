@@ -1,0 +1,5 @@
+---
+# tasks file for koadmin
+#
+- name: create a serviceaccount
+  script: admin.sh {{ name }}
