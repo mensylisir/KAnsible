@@ -1,0 +1,40 @@
+---
+
+- name: Prometheus | Create manifests dir
+  file:
+    path: "{{ kube_config_dir }}/addons/kube-prometheus/manifests"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: Prometheus | Create setup dir
+  file:
+    path: "{{ kube_config_dir }}/addons/kube-prometheus/manifests/setup"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: copy files
+  copy:
+    src: "{{ role_path }}/files/"
+    dest: "{{ kube_config_dir }}/addons/kube-prometheus/manifests/"
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: Deploy
+  shell: "{{ bin_dir }}/kubectl apply -f {{ kube_config_dir }}/addons/kube-prometheus/manifests/setup/"
+  ignore_errors: true
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: Deploy prometheus
+  shell: "{{ bin_dir }}/kubectl apply -f {{ kube_config_dir }}/addons/kube-prometheus/manifests/"
+  ignore_errors: true
+  when:
+    - inventory_hostname == groups['kube-master'][0]
