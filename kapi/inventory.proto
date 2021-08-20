@@ -5,6 +5,17 @@ service AnsibleServer {
   rpc GenerateYaml (InventoryRequest) returns (InventoryReply) {}
   rpc RunPlaybook (PlayRequests) returns (PlayReply) {}
   rpc StreamRunPlaybook(PlayRequests) returns (stream PlayReply) {}
+  rpc CheckConfiguration(ConfigRequest) returns (ConfigReply) {}
+}
+
+message ConfigReply {
+  string message = 1;
+}
+
+message ConfigRequest {
+  string clusterName = 1;
+  string containerNetwork = 2;
+  string networkMode = 3;
 }
 
 message PlayRequests {

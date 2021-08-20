@@ -18,6 +18,8 @@ var (
 	KubernetesInstallScript  = path.Join("data", "kubespray", "kubespray", "cluster.yml")
 	KubernetesUpdateScript   = path.Join("data", "kubespray", "kubespray", "cluster.yml")
 	KubernetesResetScript    = path.Join("data", "kubespray", "kubespray", "reset.yml")
+	BackupEtcdScript    = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
+	RestorEtcdScript    = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
 	HostForKubernetes        = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "hosts.yaml")
 )
 
@@ -33,6 +35,8 @@ var (
 	INSTALL_ACTION			 = "install"
 	UPDATE_ACTION			 = "update"
 	RESET_ACTION			 = "reset"
+	BACKUP_ETCD				 = "etcdbackup"
+	RESTORE_ETCD		     = "etcdrestore"
 )
 
 func GetBinPath(binFile string) (string, error) {

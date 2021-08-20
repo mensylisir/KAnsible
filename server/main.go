@@ -28,6 +28,10 @@ func (s *server) StreamRunPlaybook(requests *kapi.PlayRequests, response kapi.An
 		go ansible.ResetKubernetes(revMsg)
 	case constant.DISTRIBUTE_KEY:
 		go ansible.DistributePublicKey(revMsg)
+	case constant.BACKUP_ETCD:
+		go ansible.BackupEtcd(revMsg)
+	case constant.RESTORE_ETCD:
+		go ansible.RestoreEtcd(revMsg)
 	default:
 		errMsg := fmt.Sprintf("Unrecognized command: %v", requests.Message)
 		fmt.Println(errMsg)

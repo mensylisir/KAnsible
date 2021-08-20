@@ -32,3 +32,21 @@ func DistributePublicKey(revMsg chan string) bool {
 	}
 	return false
 }
+
+func BackupEtcd(revMsg chan string) bool {
+	backupEtcdScript := constant.BackupEtcdScript
+	ok := RunPlaybook(revMsg, "", backupEtcdScript)
+	if ok {
+		return true
+	}
+	return false
+}
+
+func RestoreEtcd(revMsg chan string) bool {
+	restoreEtcdScript := constant.RestorEtcdScript
+	ok := RunPlaybook(revMsg, "", restoreEtcdScript)
+	if ok {
+		return true
+	}
+	return false
+}
