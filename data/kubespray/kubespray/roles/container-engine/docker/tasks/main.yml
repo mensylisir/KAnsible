@@ -147,23 +147,6 @@
     - docker-ce
     - docker-ce-cli
 
-- name: scp ntpd to host
-  copy:
-    src: 'daemon.json'
-    dest: '/etc/docker/daemon.json'
-    owner: root
-    group: root
-    mode: 0755
-    force: yes
-    backup: no
-  tags:
-    - scp_ntpd_to_host
-
-- name: Restart Docker
-  service:
-    name: docker
-    state: restarted
-
 - name: ensure docker started, remove our config if docker start failed and try again
   block:
     - name: ensure service is started if docker packages are already present
@@ -204,3 +187,20 @@
     state: started
   with_items:
     - docker
+
+- name: scp daemon to host
+  copy:
+    src: 'daemon.json'
+    dest: '/etc/docker/daemon.json'
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+    backup: no
+  tags:
+    - scp_daemon_to_host
+
+- name: Restart Docker
+  service:
+    name: docker
+    state: restarted
