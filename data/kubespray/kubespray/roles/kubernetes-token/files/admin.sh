@@ -1,7 +1,7 @@
 #! /bin/bash
 
 saName=$1
-cat <<EOF | kubectl apply -f -
+cat <<EOF | {{ bin_dir }}/kubectl apply -f -
 ---
 apiVersion: v1
 kind: ServiceAccount
