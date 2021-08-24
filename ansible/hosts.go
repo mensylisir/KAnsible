@@ -120,7 +120,6 @@ func GenYamlHost(request *kapi.InventoryRequest) error {
 }
 
 func GenHosts(request *kapi.InventoryRequest) error {
-	config.GetConfig()
 	ansibleHosts := constant.AnsibleHosts
 	items := request.GetItem()
 	for _, item := range items {
@@ -137,5 +136,45 @@ func GenHosts(request *kapi.InventoryRequest) error {
 			return err
 		}
 	}
+	return nil
+}
+
+func WriteConfig(request *kapi.ConfigRequest) error{
+	if cluster := request.GetClusterName(); cluster != "" {
+		backupEtcdVars := constant.BackupEtcdVars
+		err := file.ModifyConfig(backupEtcdVars, "cluster_name", cluster)
+		if err != nil {
+			return err
+		}
+
+		restoreEtcdVars := constant.RestoreEtcdVars
+		err = file.ModifyConfig(restoreEtcdVars, "cluster_name", cluster)
+		if err != nil {
+			return err
+		}
+	}
+	if kubeVersion := request.GetKubeVersion(); kubeVersion != "" {
+		kubernetesClusterVars := constant.KubernetesClusterVars
+		err := file.ModifyConfig(kubernetesClusterVars, "kube_version", kubeVersion)
+		if err != nil {
+			return err
+		}
+	}
+	if containerNetwork := request.GetContainerNetwork();containerNetwork != "" {
+		err := WriteNetworkConfig(containerNetwork)
+		if err != nil {
+			return err
+		}
+	}
+	if networkMode := request.GetNetworkMode();networkMode != "" {
+		err := WriteNetworkConfig(networkMode)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func WriteNetworkConfig(config string) error{
 	return nil
 }

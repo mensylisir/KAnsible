@@ -83,6 +83,17 @@ func (s *server) GenerateYaml(ctx context.Context, in *kapi.InventoryRequest) (*
 	return &kapi.InventoryReply{Message: "Generate yaml success "}, nil
 }
 
+
+func (s* server) CheckConfiguration(ctx context.Context, in *kapi.ConfigRequest) (*kapi.ConfigReply, error) {
+	err := ansible.WriteConfig(in)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return &kapi.ConfigReply{Message: "Write config failure "}, err
+	}
+	return &kapi.ConfigReply{Message: "Write config success "}, nil
+}
+
+
 func main() {
 	config.GetConfig()
 	host := viper.GetString("bind.host")

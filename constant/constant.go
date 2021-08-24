@@ -18,9 +18,16 @@ var (
 	KubernetesInstallScript  = path.Join("data", "kubespray", "kubespray", "cluster.yml")
 	KubernetesUpdateScript   = path.Join("data", "kubespray", "kubespray", "cluster.yml")
 	KubernetesResetScript    = path.Join("data", "kubespray", "kubespray", "reset.yml")
-	BackupEtcdScript    = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
-	RestorEtcdScript    = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
+	BackupEtcdScript    	 = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
+	RestorEtcdScript    	 = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
 	HostForKubernetes        = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "hosts.yaml")
+)
+
+
+var (
+	BackupEtcdVars			= path.Join("data", "kubespray", "kubespray", "roles", "etcdbackup", "vars", "main.yml")
+	RestoreEtcdVars			= path.Join("data", "kubespray", "kubespray", "roles", "etcdrestore", "vars", "main.yml")
+	KubernetesClusterVars   = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "group_vars", "k8s-cluster", "k8s-cluster.yml")
 )
 
 var (

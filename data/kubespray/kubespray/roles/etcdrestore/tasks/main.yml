@@ -44,22 +44,12 @@
     state: absent
 
 - name: Restore the data to the etcd data directory
-  shell: "cp -rf /var/lib/etcd/ /var/ko/data/backup/k8s/"
-
-- name: Clean up etcd data directory
-  file:
-    name: "{{ etcd_data_dir }}"
-    state: absent
+  shell: "cp -rf {{ etcd_data_dir }} /var/ko/data/backup/k8s/"
 
 - name: Restore etcd data
   shell: "cd /etc/kubernetes/backup/etcd && \
     ETCDCTL_API=3 {{ bin_dir }}/etcdctl snapshot restore \
-    {{ etcd_snapshot_name }} \
-    --data-dir={{ etcd_data_dir }} \
-    --name etcd-{{ inventory_hostname }} \
-    --initial-cluster {{ INITIAL_CLUSTER }} \
-    --initial-cluster-token etcd-cluster-token \
-    --initial-advertise-peer-urls https://{{ CURRENT_HOST_IP }}:2379"
+    {{ etcd_snapshot_name }}"
 
 - name: Authorization etcd data directory
   file:
@@ -69,6 +59,11 @@
 - name: Remove temporary etcd backup files from each node
   file:
     name: "/etc/kubernetes/backup/etcd/{{ etcd_snapshot_name }}"
+    state: absent
+
+- name: Remove default.etcd from each node
+  file:
+    name: "/etc/kubernetes/backup/etcd/default.etcd"
     state: absent
 
 - name: Systemctl daemon-reload

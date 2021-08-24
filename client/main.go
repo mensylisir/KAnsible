@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"github.com/mensylisir/KAnsible/kapi"
 	"google.golang.org/grpc"
-	"log"
 )
 
 func main() {
 	// 连接服务器
-	conn, err := grpc.Dial("localhost:12800", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:8080", grpc.WithInsecure())
 	if err != nil {
 		fmt.Printf("连接服务端失败: %s\n", err)
 		return
@@ -46,48 +45,60 @@ func main() {
 	fmt.Println(r.Message)
 
 
-	bbb := &kapi.PlayRequests{
-		Message: "distribute",
+	configReq := &kapi.ConfigRequest{
+		ClusterName: "aaaaa",
 	}
 
-	r2, err := c.StreamRunPlaybook(context.Background(), bbb)
+	resp, err := c.CheckConfiguration(context.Background(), configReq)
 	if err != nil {
 		fmt.Printf("调用服务端代码失败: %s", err)
 		return
 	}
-	for {
-		bb, err := r2.Recv()
-		if err != nil {
-			log.Fatalf("Error: %v\n", err)
-		}
-		data := bb.GetRes()
-		fmt.Println(data)
-		if "success" == data {
-			break
-		}
-		if  "failure" == data {
-			return
-		}
-	}
+	fmt.Println(resp.Message)
 
-	aaa := &kapi.PlayRequests{
-		Message: "install",
-	}
 
-	r1, err := c.StreamRunPlaybook(context.Background(), aaa)
-	if err != nil {
-		fmt.Printf("调用服务端代码失败: %s", err)
-		return
-	}
-	for {
-		bb, err := r1.Recv()
-		if err != nil {
-			log.Fatalf("Error: %v\n", err)
-		}
-		data := bb.GetRes()
-		fmt.Println(data)
-		if "success" == data || "failure" == data {
-			break
-		}
-	}
+	//bbb := &kapi.PlayRequests{
+	//	Message: "distribute",
+	//}
+	//
+	//r2, err := c.StreamRunPlaybook(context.Background(), bbb)
+	//if err != nil {
+	//	fmt.Printf("调用服务端代码失败: %s", err)
+	//	return
+	//}
+	//for {
+	//	bb, err := r2.Recv()
+	//	if err != nil {
+	//		log.Fatalf("Error: %v\n", err)
+	//	}
+	//	data := bb.GetRes()
+	//	fmt.Println(data)
+	//	if "success" == data {
+	//		break
+	//	}
+	//	if  "failure" == data {
+	//		return
+	//	}
+	//}
+	//
+	//aaa := &kapi.PlayRequests{
+	//	Message: "install",
+	//}
+	//
+	//r1, err := c.StreamRunPlaybook(context.Background(), aaa)
+	//if err != nil {
+	//	fmt.Printf("调用服务端代码失败: %s", err)
+	//	return
+	//}
+	//for {
+	//	bb, err := r1.Recv()
+	//	if err != nil {
+	//		log.Fatalf("Error: %v\n", err)
+	//	}
+	//	data := bb.GetRes()
+	//	fmt.Println(data)
+	//	if "success" == data || "failure" == data {
+	//		break
+	//	}
+	//}
 }

@@ -16,6 +16,7 @@ message ConfigRequest {
   string clusterName = 1;
   string containerNetwork = 2;
   string networkMode = 3;
+  string kubeVersion=4;
 }
 
 message PlayRequests {
