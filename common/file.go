@@ -105,6 +105,9 @@ func ModifyConfig(path, key, value string) error{
 		if c == io.EOF {
 			break
 		}
+		if strings.HasPrefix(string(line), "#") {
+			continue
+		}
 		if strings.Contains(string(line), key){
 			exist = true
 			newline := key + ": " + "\"" + value + "\""

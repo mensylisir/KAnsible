@@ -34,8 +34,9 @@ func DistributePublicKey(revMsg chan string) bool {
 }
 
 func BackupEtcd(revMsg chan string) bool {
+	inventory := constant.HostForKubernetes
 	backupEtcdScript := constant.BackupEtcdScript
-	ok := RunPlaybook(revMsg, "", backupEtcdScript)
+	ok := RunPlaybook(revMsg, inventory, backupEtcdScript)
 	if ok {
 		return true
 	}
@@ -43,8 +44,9 @@ func BackupEtcd(revMsg chan string) bool {
 }
 
 func RestoreEtcd(revMsg chan string) bool {
+	inventory := constant.HostForKubernetes
 	restoreEtcdScript := constant.RestorEtcdScript
-	ok := RunPlaybook(revMsg, "", restoreEtcdScript)
+	ok := RunPlaybook(revMsg, inventory, restoreEtcdScript)
 	if ok {
 		return true
 	}
