@@ -1,0 +1,4 @@
+kube_config_dir="/etc/kubernetes"
+storage_nfs_provisioner_name=""
+storage_nfs_server=""
+storage_nfs_server_path=""

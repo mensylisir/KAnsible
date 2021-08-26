@@ -17,6 +17,9 @@ message ConfigRequest {
   string containerNetwork = 2;
   string networkMode = 3;
   string kubeVersion=4;
+  string nfs_provisioner_name = 5;
+  string nfs_server = 6;
+  string nfs_server_path = 7;
 }
 
 message PlayRequests {

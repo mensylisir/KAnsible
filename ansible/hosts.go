@@ -153,6 +153,20 @@ func WriteConfig(request *kapi.ConfigRequest) error{
 			return err
 		}
 	}
+	privisionerName :=  request.GetNfsProvisionerName()
+	nfsServer := request.GetNfsServer()
+	nfsPath := request.GetNfsServerPath()
+	items := make(map[string]string)
+	if privisionerName != "" && nfsServer != "" && nfsPath != "" {
+		nfsClusterVars := constant.NfsClusterVars
+		items["storage_nfs_provisioner_name"] = privisionerName
+		items["storage_nfs_server"] = nfsServer
+		items["storage_nfs_server_path"] = nfsPath
+		err := file.ModifyMultiConfig(nfsClusterVars, items)
+		if err != nil {
+			return err
+		}
+	}
 	if kubeVersion := request.GetKubeVersion(); kubeVersion != "" {
 		kubernetesClusterVars := constant.KubernetesClusterVars
 		err := file.ModifyConfig(kubernetesClusterVars, "kube_version", kubeVersion)
