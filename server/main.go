@@ -32,6 +32,8 @@ func (s *server) StreamRunPlaybook(requests *kapi.PlayRequests, response kapi.An
 		go ansible.BackupEtcd(revMsg)
 	case constant.RESTORE_ETCD:
 		go ansible.RestoreEtcd(revMsg)
+	case constant.CREATE_NFS:
+		go ansible.CreateNFS(revMsg)
 	default:
 		errMsg := fmt.Sprintf("Unrecognized command: %v", requests.Message)
 		fmt.Println(errMsg)

@@ -52,3 +52,13 @@ func RestoreEtcd(revMsg chan string) bool {
 	}
 	return false
 }
+
+func CreateNFS(revMsg chan string) bool {
+	inventory := constant.HostForKubernetes
+	createNFSScript := constant.CreateNFSScript
+	ok := RunPlaybook(revMsg, inventory, createNFSScript)
+	if ok {
+		return true
+	}
+	return false
+}

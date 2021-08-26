@@ -20,6 +20,7 @@ var (
 	KubernetesResetScript   = path.Join("data", "kubespray", "kubespray", "reset.yml")
 	BackupEtcdScript        = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
 	RestorEtcdScript        = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
+	CreateNFSScript        = path.Join("data", "kubespray", "kubespray", "nfs.yml")
 	HostForKubernetes       = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "hosts.yaml")
 )
 
@@ -44,6 +45,7 @@ var (
 	RESET_ACTION   = "reset"
 	BACKUP_ETCD    = "etcdbackup"
 	RESTORE_ETCD   = "etcdrestore"
+	CREATE_NFS	   = "nfscreate"
 )
 
 func GetBinPath(binFile string) (string, error) {
