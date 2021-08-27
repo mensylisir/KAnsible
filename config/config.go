@@ -41,7 +41,7 @@ func WriteConfig(path string, items map[string]string) error{
 	for key, value := range items {
 		viper.Set(key ,value)
 	}
-	err = viper.WriteConfigAs(path)
+	err = viper.WriteConfigAs(filePath)
 	if err != nil {
 		return err
 	}

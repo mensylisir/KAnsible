@@ -1,5 +1,5 @@
-cluster_name: ffff
+cluster_name: ccccc
 kube_config_dir: /etc/kubernetes
-storage_nfs_provisioner_name: aaffffaa
-storage_nfs_server: 192.128.222.1111
-storage_nfs_server_path: /data11
+storage_nfs_provisioner_name: dddddd
+storage_nfs_server: 192.118.222.1111
+storage_nfs_server_path: /aaa

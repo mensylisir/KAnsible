@@ -46,10 +46,10 @@ func main() {
 
 
 	configReq := &kapi.ConfigRequest{
-		ClusterName: "ffff",
-		NfsProvisionerName: "aaffffaa",
-		NfsServer:			"192.128.222.1111",
-		NfsServerPath:		"/data11",
+		ClusterName: "ccccc",
+		NfsProvisionerName: "dddddd",
+		NfsServer:			"192.118.222.1111",
+		NfsServerPath:		"/aaa",
 	}
 
 	resp, err := c.CheckConfiguration(context.Background(), configReq)

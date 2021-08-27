@@ -1,4 +1,4 @@
-cluster_name: ffff
+cluster_name: ccccc
 etcd_backup_retention_count: -1
 etcd_cert_dir: /etc/ssl/etcd/ssl
 etcd_data_dir: /var/lib/etcd
