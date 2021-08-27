@@ -47,6 +47,9 @@ func main() {
 
 	configReq := &kapi.ConfigRequest{
 		ClusterName: "aaaaa",
+		NfsProvisionerName: "aaaa",
+		NfsServer:			"192.168.1.1111",
+		NfsServerPath:		"/data",
 	}
 
 	resp, err := c.CheckConfiguration(context.Background(), configReq)

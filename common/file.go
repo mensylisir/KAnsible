@@ -105,6 +105,10 @@ func ModifyConfig(path, key, value string) error{
 		if c == io.EOF {
 			break
 		}
+		if exist {
+			line = []byte(nil)
+			output = append(output, line...)
+		}
 		if strings.HasPrefix(string(line), "#") {
 			continue
 		}
@@ -112,9 +116,15 @@ func ModifyConfig(path, key, value string) error{
 			exist = true
 			newline := key + ": " + "\"" + value + "\""
 			line = []byte(newline)
+			output = append(output, line...)
+			output = append(output, []byte("\n")...)
+		} else if strings.TrimSpace(string(line)) != "" {
+			output = append(output, line...)
+			output = append(output, []byte("\n")...)
+		} else {
+			continue
 		}
-		output = append(output, line...)
-		output = append(output, []byte("\n")...)
+
 	}
 	if !exist {
 		newline := key + ": " + "\"" + value + "\""

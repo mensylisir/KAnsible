@@ -2,9 +2,8 @@
 - name: Check ansible version
   import_playbook: ansible_version.yml
 
-- hosts: etcd[0]
-  strategy: linear
+- hosts: k8s-cluster
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  gather_facts: false
+  gather_facts: yes
   roles:
     - { role: cluster-storage/nfs }

@@ -1,9 +1,8 @@
-- name: NFS | Install nfs-utils
-  yum:
-    name:
-      - nfs-utils
-    state: present
-    update_cache: yes
+---
+- include: apt_package.yml
+  when: ansible_pkg_mgr == 'apt'
+- include: yum_package.yml
+  when: ansible_pkg_mgr == 'yum'
 
 - block:
     - name: NFS| Set defaultvers
@@ -50,11 +49,11 @@
 - name: kubeadmin   | Apply manifests
   kube:
     name: "{{ item.item.name }}"
-    namespace: "{{ kubeadmin_namespace }}"
+    namespace: "kube-system"
     kubectl: "{{ bin_dir }}/kubectl"
     resource: "{{ item.item.type }}"
     filename: "{{ kube_config_dir }}/addons/storage-addons/nfs/{{ item.item.file }}"
     state: "latest"
-  with_items: "{{ kubeadmin_manifests.results }}"
+  with_items: "{{ nfs_manifests.results }}"
   when:
     - inventory_hostname == groups['kube-master'][0]
