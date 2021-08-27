@@ -71,6 +71,10 @@ func Append(host, path string) error {
 	return nil
 }
 
+func AlterConfig(path, key, value string) error {
+	return nil
+}
+
 func ModifyMultiConfig(path string, items map[string]string) error {
 	for key, value := range items {
 		err := ModifyConfig(path, key, value)

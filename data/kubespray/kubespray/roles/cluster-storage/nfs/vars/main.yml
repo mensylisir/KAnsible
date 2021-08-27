@@ -1,4 +1,5 @@
-kube_config_dir: "/etc/kubernetes"
-storage_nfs_provisioner_name: "aaaa"
-storage_nfs_server: "192.168.1.1111"
-storage_nfs_server_path: "/data"
+cluster_name: ffff
+kube_config_dir: /etc/kubernetes
+storage_nfs_provisioner_name: aaffffaa
+storage_nfs_server: 192.128.222.1111
+storage_nfs_server_path: /data11

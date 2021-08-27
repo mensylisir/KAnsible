@@ -141,36 +141,43 @@ func GenHosts(request *kapi.InventoryRequest) error {
 
 func WriteConfig(request *kapi.ConfigRequest) error{
 	if cluster := request.GetClusterName(); cluster != "" {
+		items := make(map[string]string)
 		backupEtcdVars := constant.BackupEtcdVars
-		err := file.ModifyConfig(backupEtcdVars, "cluster_name", cluster)
+		items["cluster_name"] = cluster
+		err := config.WriteConfig(backupEtcdVars, items)
 		if err != nil {
+			fmt.Printf("error: %v", err)
 			return err
 		}
-
 		restoreEtcdVars := constant.RestoreEtcdVars
-		err = file.ModifyConfig(restoreEtcdVars, "cluster_name", cluster)
+		err = config.WriteConfig(restoreEtcdVars, items)
 		if err != nil {
+			fmt.Printf("error: %v", err)
 			return err
 		}
 	}
 	privisionerName :=  request.GetNfsProvisionerName()
 	nfsServer := request.GetNfsServer()
 	nfsPath := request.GetNfsServerPath()
-	items := make(map[string]string)
 	if privisionerName != "" && nfsServer != "" && nfsPath != "" {
+		items := make(map[string]string)
 		nfsClusterVars := constant.NfsClusterVars
 		items["storage_nfs_provisioner_name"] = privisionerName
 		items["storage_nfs_server"] = nfsServer
 		items["storage_nfs_server_path"] = nfsPath
-		err := file.ModifyMultiConfig(nfsClusterVars, items)
+		err := config.WriteConfig(nfsClusterVars, items)
 		if err != nil {
+			fmt.Printf("error: %v", err)
 			return err
 		}
 	}
 	if kubeVersion := request.GetKubeVersion(); kubeVersion != "" {
 		kubernetesClusterVars := constant.KubernetesClusterVars
-		err := file.ModifyConfig(kubernetesClusterVars, "kube_version", kubeVersion)
+		items := make(map[string]string)
+		items["kube_version"] = kubeVersion
+		err := config.WriteConfig(kubernetesClusterVars, items)
 		if err != nil {
+			fmt.Printf("error: %v", err)
 			return err
 		}
 	}

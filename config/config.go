@@ -4,7 +4,6 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"path/filepath"
-	"strings"
 )
 
 func GetConfig() {
@@ -18,28 +17,33 @@ func GetConfig() {
 }
 
 func ReadConfig(path string) {
-	fileType := strings.Replace(filepath.Ext(path), ".", "",-1)
 	dir, fileName := filepath.Split(path)
-	fileName = strings.Replace(fileName, fileType, "", -1)
-	viper.SetConfigType(fileName)
-	viper.SetConfigType(fileType)
 	viper.AddConfigPath(dir)
+	viper.SetConfigFile(fileName)
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 }
 
-func WriteConfig(path string) {
-	fileType := strings.Replace(filepath.Ext(path), ".", "",-1)
-	dir, fileName := filepath.Split(path)
-	fileName = strings.Replace(fileName, fileType, "", -1)
-	viper.SetConfigType(fileName)
-	viper.SetConfigType(fileType)
-	viper.AddConfigPath(dir)
-	err := viper.ReadInConfig()
+func WriteConfig(path string, items map[string]string) error{
+	filePath, err := filepath.Abs(path)
 	if err != nil {
-		log.Fatalf("Error: %v", err)
+		return err
 	}
-	viper.WriteConfigAs(path)
+	dir, _ := filepath.Split(filePath)
+	viper.AddConfigPath(dir)
+	viper.SetConfigFile(filePath)
+	err = viper.ReadInConfig()
+	if err != nil {
+		return err
+	}
+	for key, value := range items {
+		viper.Set(key ,value)
+	}
+	err = viper.WriteConfigAs(path)
+	if err != nil {
+		return err
+	}
+	return nil
 }

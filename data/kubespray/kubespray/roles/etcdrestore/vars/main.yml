@@ -1,4 +1,4 @@
-etcd_snapshot_name: "etcd-snapshot.db"
-etcd_data_dir: "/var/lib/etcd"
-bin_dir: "/usr/local/bin"
-cluster_name: "aaaaa"
+bin_dir: /usr/local/bin
+cluster_name: ffff
+etcd_data_dir: /var/lib/etcd
+etcd_snapshot_name: etcd-snapshot.db
