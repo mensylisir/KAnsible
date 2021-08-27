@@ -1,1 +1,5 @@
+etcd_snapshot_name: "etcd-snapshot.db"
+etcd_data_dir: "/var/lib/etcd"
 cluster_name: "aaaaa"
+etcd_backup_retention_count: -1
+etcd_cert_dir: "/etc/ssl/etcd/ssl"
