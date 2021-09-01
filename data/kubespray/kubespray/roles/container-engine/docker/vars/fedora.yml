@@ -1,6 +1,6 @@
 ---
 # https://docs.docker.com/install/linux/docker-ce/fedora/
-# https://download.docker.com/linux/fedora/<fedora-version>/x86_64/stable/Packages/
+# https://mirrors.ustc.edu.cn/docker-ce/linux/fedora/<fedora-version>/x86_64/stable/Packages/
 docker_versioned_pkg:
   'latest': docker-ce
   '19.03': docker-ce-19.03.14-3.fc{{ ansible_distribution_major_version }}

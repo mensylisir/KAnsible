@@ -38,20 +38,20 @@ extras_rh_repo_base_url: "http://mirror.centos.org/centos/{{ ansible_distributio
 extras_rh_repo_gpgkey: "http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7"
 
 # Ubuntu docker-ce repo
-containerd_ubuntu_repo_base_url: "https://download.docker.com/linux/ubuntu"
-containerd_ubuntu_repo_gpgkey: 'https://download.docker.com/linux/ubuntu/gpg'
+containerd_ubuntu_repo_base_url: "https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu"
+containerd_ubuntu_repo_gpgkey: 'https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg'
 containerd_ubuntu_repo_repokey: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
 containerd_ubuntu_repo_component: 'stable'
 
 # Debian docker-ce repo
-containerd_debian_repo_base_url: 'https://download.docker.com/linux/debian'
-containerd_debian_repo_gpgkey: 'https://download.docker.com/linux/debian/gpg'
+containerd_debian_repo_base_url: 'https://mirrors.ustc.edu.cn/docker-ce/linux/debian'
+containerd_debian_repo_gpgkey: 'https://mirrors.ustc.edu.cn/docker-ce/linux/debian/gpg'
 containerd_debian_repo_repokey: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
 containerd_debian_repo_component: 'stable'
 
 # Fedora docker-ce repo
-containerd_fedora_repo_base_url: 'https://download.docker.com/linux/fedora/{{ ansible_distribution_major_version }}/$basearch/stable'
-containerd_fedora_repo_gpgkey: 'https://download.docker.com/linux/fedora/gpg'
+containerd_fedora_repo_base_url: 'https://mirrors.ustc.edu.cn/docker-ce/linux/fedora/{{ ansible_distribution_major_version }}/$basearch/stable'
+containerd_fedora_repo_gpgkey: 'https://mirrors.ustc.edu.cn/docker-ce/linux/fedora/gpg'
 containerd_fedora_repo_repokey: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
 containerd_fedora_repo_component: 'stable'
 

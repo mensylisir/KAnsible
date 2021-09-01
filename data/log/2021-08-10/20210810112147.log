@@ -1064,7 +1064,7 @@ TASK [container-engine/docker : ensure docker-ce repository public key is instal
 ok: [node1] => (item=9DC858229FC7DD38854AE2D88D81803C0EBFCD88)
 
 TASK [container-engine/docker : ensure docker-ce repository is enabled] ********
-ok: [node1] => (item=deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+ok: [node1] => (item=deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal stable
 )
 
 TASK [container-engine/docker : Configure docker repository on Fedora] *********
