@@ -254,3 +254,61 @@ func WriteConfig(request *kapi.ConfigRequest) error{
 func WriteNetworkConfig(config string) error{
 	return nil
 }
+
+
+func WriteConfig2(request *kapi.Config) error{
+	if cluster := request.GetClusterName(); cluster != "" {
+		items := make(map[string]string)
+		backupEtcdVars := constant.BackupEtcdVars
+		items["cluster_name"] = cluster
+		err := config.WriteConfig(backupEtcdVars, items)
+		if err != nil {
+			fmt.Printf("error: %v", err)
+			return err
+		}
+		restoreEtcdVars := constant.RestoreEtcdVars
+		err = config.WriteConfig(restoreEtcdVars, items)
+		if err != nil {
+			fmt.Printf("error: %v", err)
+			return err
+		}
+	}
+	privisionerName :=  request.GetNfsProvisionerName()
+	nfsServer := request.GetNfsServer()
+	nfsPath := request.GetNfsServerPath()
+	if privisionerName != "" && nfsServer != "" && nfsPath != "" {
+		items := make(map[string]string)
+		nfsClusterVars := constant.NfsClusterVars
+		items["storage_nfs_provisioner_name"] = privisionerName
+		items["storage_nfs_server"] = nfsServer
+		items["storage_nfs_server_path"] = nfsPath
+		err := config.WriteConfig(nfsClusterVars, items)
+		if err != nil {
+			fmt.Printf("error: %v", err)
+			return err
+		}
+	}
+	if kubeVersion := request.GetKubeVersion(); kubeVersion != "" {
+		kubernetesClusterVars := constant.KubernetesClusterVars
+		items := make(map[string]string)
+		items["kube_version"] = kubeVersion
+		err := config.WriteConfig(kubernetesClusterVars, items)
+		if err != nil {
+			fmt.Printf("error: %v", err)
+			return err
+		}
+	}
+	if containerNetwork := request.GetContainerNetwork();containerNetwork != "" {
+		err := WriteNetworkConfig(containerNetwork)
+		if err != nil {
+			return err
+		}
+	}
+	if networkMode := request.GetNetworkMode();networkMode != "" {
+		err := WriteNetworkConfig(networkMode)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

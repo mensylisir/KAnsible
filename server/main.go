@@ -72,6 +72,14 @@ func (s *server) StreamPlaybook(requests *kapi.PlaybookRequests, response kapi.A
 		})
 		return err
 	}
+	err = ansible.WriteConfig2(requests.Config)
+	if err != nil {
+		errMsg := fmt.Sprintf("Error: %v\n", err)
+		err := response.Send(&kapi.PlayReply{
+			Res: errMsg,
+		})
+		return err
+	}
 	revMsg := make(chan string)
 	switch requests.GetAction() {
 	case constant.INSTALL_ACTION:
