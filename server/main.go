@@ -80,7 +80,16 @@ func (s *server) StreamPlaybook(requests *kapi.PlaybookRequests, response kapi.A
 		})
 		return err
 	}
+
 	revMsg := make(chan string)
+	ok := ansible.DistributePublicKey(revMsg)
+	if !ok {
+		errMsg := "Error: Handout public key error!\n"
+		err := response.Send(&kapi.PlayReply{
+			Res: errMsg,
+		})
+		return err
+	}
 	switch requests.GetAction() {
 	case constant.INSTALL_ACTION:
 		go ansible.InstallKubernetes(revMsg)
