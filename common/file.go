@@ -71,6 +71,43 @@ func Append(host, path string) error {
 	return nil
 }
 
+func DeleteLine(content, path string) error {
+	file, err:= os.OpenFile(path, os.O_RDWR, 0666)
+	if err != nil {
+		errMsg := fmt.Sprintf("open config file[%v]: %v", path, err)
+		_ = WriteLog(errMsg)
+		return err
+	}
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
+	buf := bufio.NewReader(file)
+	output := make([]byte, 0)
+	for {
+		line, _, c := buf.ReadLine()
+		if c == io.EOF {
+			break
+		}
+		if strings.HasPrefix(string(line), "#") {
+			continue
+		}
+		if strings.TrimSpace(string(line)) == strings.TrimSpace(content) {
+			continue
+		}
+		output = append(output, line...)
+		output = append(output, []byte("\n")...)
+	}
+	if err := writeToFile(path ,output);err != nil{
+		errMsg := fmt.Sprintf("write config file[%v]: %v", path, err)
+		_ = WriteLog(errMsg)
+		return err
+	}
+	return nil
+}
+
 func AlterConfig(path, key, value string) error {
 	return nil
 }

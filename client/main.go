@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/mensylisir/KAnsible/constant"
 	"github.com/mensylisir/KAnsible/kapi"
 	"google.golang.org/grpc"
+	"log"
 )
 
 func main() {
@@ -18,48 +20,89 @@ func main() {
 	// 新建一个客户端
 	c := kapi.NewAnsibleServerClient(conn)
 
-	helloReq := &kapi.InventoryRequest{
+	//helloReq := &kapi.InventoryRequest{
+	//	Item: []*kapi.Node{
+	//		{
+	//			Ip:       "192.168.7.127",
+	//			Port:     "22",
+	//			Password: "Def@u1tpwd",
+	//			Role:     "master",
+	//			Name:     "node1",
+	//		},
+	//		{
+	//			Ip:       "192.168.7.128",
+	//			Port:     "22",
+	//			Password: "Def@u1tpwd",
+	//			Role:     "worker",
+	//			Name:     "node2",
+	//		},
+	//	},
+	//}
+	//// 调用服务端函数
+	//r, err := c.GenerateYaml(context.Background(), helloReq)
+	//if err != nil {
+	//	fmt.Printf("调用服务端代码失败: %s", err)
+	//	return
+	//}
+	//fmt.Println(r.Message)
+	//
+	//
+	//configReq := &kapi.ConfigRequest{
+	//	ClusterName: "ccccc",
+	//	NfsProvisionerName: "dddddd",
+	//	NfsServer:			"192.118.222.1111",
+	//	NfsServerPath:		"/aaa",
+	//}
+	//
+	//resp, err := c.CheckConfiguration(context.Background(), configReq)
+	//if err != nil {
+	//	fmt.Printf("调用服务端代码失败: %s", err)
+	//	return
+	//}
+	//fmt.Println(resp.Message)
+
+
+	playRequests := &kapi.PlaybookRequests{
+		Action: constant.INSTALL_ACTION,
 		Item: []*kapi.Node{
 			{
-				Ip:       "192.168.7.127",
+				Ip:       "192.168.7.100",
 				Port:     "22",
 				Password: "Def@u1tpwd",
 				Role:     "master",
-				Name:     "node1",
+				Name:     "mm1",
 			},
 			{
-				Ip:       "192.168.7.128",
+				Ip:       "192.168.7.101",
 				Port:     "22",
 				Password: "Def@u1tpwd",
 				Role:     "worker",
-				Name:     "node2",
+				Name:     "mm2",
 			},
 		},
+		Config: &kapi.Config{
+
+		},
 	}
-	// 调用服务端函数
-	r, err := c.GenerateYaml(context.Background(), helloReq)
+	r2, err := c.StreamPlaybook(context.Background(), playRequests)
 	if err != nil {
 		fmt.Printf("调用服务端代码失败: %s", err)
 		return
 	}
-	fmt.Println(r.Message)
-
-
-	configReq := &kapi.ConfigRequest{
-		ClusterName: "ccccc",
-		NfsProvisionerName: "dddddd",
-		NfsServer:			"192.118.222.1111",
-		NfsServerPath:		"/aaa",
+	for {
+		bb, err := r2.Recv()
+		if err != nil {
+			log.Fatalf("Error: %v\n", err)
+		}
+		data := bb.GetRes()
+		fmt.Println(data)
+		if "success" == data {
+			break
+		}
+		if "failure" == data {
+			return
+		}
 	}
-
-	resp, err := c.CheckConfiguration(context.Background(), configReq)
-	if err != nil {
-		fmt.Printf("调用服务端代码失败: %s", err)
-		return
-	}
-	fmt.Println(resp.Message)
-
-
 	//bbb := &kapi.PlayRequests{
 	//	Message: "distribute",
 	//}

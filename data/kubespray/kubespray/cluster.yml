@@ -123,3 +123,9 @@
   gather_facts: false
   roles:
     - { role: kubernetes-token }
+
+- hosts: kube-master[0]
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  gather_facts: false
+  roles:
+    - { role: permisison-manager }

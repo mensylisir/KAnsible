@@ -47,7 +47,69 @@ func (s *server) StreamRunPlaybook(requests *kapi.PlayRequests, response kapi.An
 		if err != nil {
 			return err
 		}
-		if "exit" == data {
+		if "exit" == data || "failure" == data || "success" == data {
+			break
+		}
+	}
+	return nil
+}
+
+func (s *server) StreamPlaybook(requests *kapi.PlaybookRequests, response kapi.AnsibleServer_StreamPlaybookServer) error {
+	config.GetConfig()
+	err := ansible.GenerateHosts(requests)
+	if err != nil {
+		errMsg := fmt.Sprintf("Error: %v\n", err)
+		err := response.Send(&kapi.PlayReply{
+			Res: errMsg,
+		})
+		return err
+	}
+	err = ansible.GenerateYamlHost(requests)
+	if err != nil {
+		errMsg := fmt.Sprintf("Error: %v\n", err)
+		err := response.Send(&kapi.PlayReply{
+			Res: errMsg,
+		})
+		return err
+	}
+	revMsg := make(chan string)
+	switch requests.GetAction() {
+	case constant.INSTALL_ACTION:
+		go ansible.InstallKubernetes(revMsg)
+	case constant.UPDATE_ACTION:
+		go ansible.InstallKubernetes(revMsg)
+	case constant.RESET_ACTION:
+		go ansible.ResetKubernetes(revMsg)
+	case constant.DISTRIBUTE_KEY:
+		go ansible.DistributePublicKey(revMsg)
+	case constant.BACKUP_ETCD:
+		go ansible.BackupEtcd(revMsg)
+	case constant.RESTORE_ETCD:
+		go ansible.RestoreEtcd(revMsg)
+	case constant.CREATE_NFS:
+		go ansible.CreateNFS(revMsg)
+	default:
+		errMsg := fmt.Sprintf("Unrecognized command: %v", requests.Action)
+		fmt.Println(errMsg)
+		return errors.New(errMsg)
+	}
+	for {
+		data := <-revMsg
+		err := response.Send(&kapi.PlayReply{
+			Res: data,
+		})
+		if err != nil {
+			return err
+		}
+		if "exit" == data || "failure" == data || "success" == data {
+			err = ansible.DeleteHosts(requests)
+			if err != nil {
+				errMsg := fmt.Sprintf("Error: %v\n", err)
+				err := response.Send(&kapi.PlayReply{
+					Res: errMsg,
+				})
+				return err
+			}
 			break
 		}
 	}

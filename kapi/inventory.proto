@@ -6,6 +6,7 @@ service AnsibleServer {
   rpc RunPlaybook (PlayRequests) returns (PlayReply) {}
   rpc StreamRunPlaybook(PlayRequests) returns (stream PlayReply) {}
   rpc CheckConfiguration(ConfigRequest) returns (ConfigReply) {}
+  rpc StreamPlaybook(PlaybookRequests) returns (stream PlayReply) {}
 }
 
 message ConfigReply {
@@ -42,6 +43,23 @@ message Node {
     string role = 5;
 }
 
+message Config {
+    string clusterName = 1;
+    string containerNetwork = 2;
+    string networkMode = 3;
+    string kubeVersion=4;
+    string nfs_provisioner_name = 5;
+    string nfs_server = 6;
+    string nfs_server_path = 7;
+}
+
+message PlaybookRequests {
+  string action = 1;
+  repeated Node item = 2;
+  Config config = 3;
+}
+
 message InventoryReply {
   string message = 1;
 }
+

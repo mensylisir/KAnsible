@@ -1,0 +1,4 @@
+
+open config file[192.168.7.100 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass=Def@u1tpwd]: open 192.168.7.100 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass=Def@u1tpwd: no such file or directory
+Error: open 192.168.7.100 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass=Def@u1tpwd: no such file or directory
+[WARNING]: Ansible is being run in a world writable directory

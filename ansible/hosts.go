@@ -119,6 +119,61 @@ func GenYamlHost(request *kapi.InventoryRequest) error {
 	return nil
 }
 
+func GenerateYamlHost(request *kapi.PlaybookRequests) error {
+	config.GetConfig()
+	inventory := constant.HostForKubernetes
+	items := request.GetItem()
+	node := GenNode(items)
+	children := GenChildren(items)
+	all := make(map[string]interface{})
+	all["hosts"] = node
+	all["children"] = children
+	data := make(map[string]interface{})
+	data["all"] = all
+	Write2Yaml(data, inventory)
+	return nil
+}
+
+func GenerateHosts(request *kapi.PlaybookRequests) error {
+	ansibleHosts := constant.AnsibleHosts
+	items := request.GetItem()
+	for _, item := range items {
+		host := ""
+		host += item.Ip + " "
+		host += "ansible_ssh_port=" + item.Port + " "
+		host += "ansible_ssh_user=root" + " "
+		host += "ansible_ssh_pass=" + item.Password
+		err := file.Append(host, ansibleHosts)
+		if err != nil {
+			errMsg := fmt.Sprintf("Error: %v", err)
+			fmt.Println(errMsg)
+			_ = file.WriteLog(errMsg)
+			return err
+		}
+	}
+	return nil
+}
+
+func DeleteHosts(request *kapi.PlaybookRequests) error {
+	ansibleHosts := constant.AnsibleHosts
+	items := request.GetItem()
+	for _, item := range items {
+		host := ""
+		host += item.Ip + " "
+		host += "ansible_ssh_port=" + item.Port + " "
+		host += "ansible_ssh_user=root" + " "
+		host += "ansible_ssh_pass=" + item.Password
+		err := file.DeleteLine(host, ansibleHosts)
+		if err != nil {
+			errMsg := fmt.Sprintf("Error: %v", err)
+			fmt.Println(errMsg)
+			_ = file.WriteLog(errMsg)
+			return err
+		}
+	}
+	return nil
+}
+
 func GenHosts(request *kapi.InventoryRequest) error {
 	ansibleHosts := constant.AnsibleHosts
 	items := request.GetItem()
