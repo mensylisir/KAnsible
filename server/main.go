@@ -82,13 +82,18 @@ func (s *server) StreamPlaybook(requests *kapi.PlaybookRequests, response kapi.A
 	}
 
 	revMsg := make(chan string)
-	ok := ansible.DistributePublicKey(revMsg)
-	if !ok {
-		errMsg := "Error: Handout public key error!\n"
+	go ansible.DistributePublicKey(revMsg)
+	for {
+		data := <-revMsg
+		if "success" == data {
+			break
+		}
 		err := response.Send(&kapi.PlayReply{
-			Res: errMsg,
+			Res: data,
 		})
-		return err
+		if err != nil {
+			return err
+		}
 	}
 	switch requests.GetAction() {
 	case constant.INSTALL_ACTION:

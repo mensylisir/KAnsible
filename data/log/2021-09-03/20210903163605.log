@@ -1,0 +1,24 @@
+
+[WARNING]: Ansible is being run in a world writable directory
+(/mnt/d/Workspace/KAnsible), ignoring it as an ansible.cfg source. For more
+information see
+https://docs.ansible.com/ansible/devel/reference_appendices/config.html#cfg-in-
+world-writable-dir
+
+PLAY [测试ansible任务] *************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.7.101]
+ok: [192.168.7.100]
+
+TASK [Set authorized key taken from file] **************************************
+ok: [192.168.7.101]
+ok: [192.168.7.100]
+
+PLAY RECAP *********************************************************************
+192.168.7.100              : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.7.101              : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Command execution success
+[WARNING]: Ansible is being run in a world writable directory
+(/mnt/d/Workspace/KAnsible), ignoring it as an ansible.cfg source. For more
