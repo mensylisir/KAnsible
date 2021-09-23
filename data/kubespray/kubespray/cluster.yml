@@ -129,3 +129,24 @@
   gather_facts: false
   roles:
     - { role: permisison-manager }
+
+- hosts: kube-master[0]
+  strategy: linear
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  gather_facts: false
+  roles:
+    - { role: kubernetes-apps/kube-prometheus }
+
+- hosts: kube-master[0]
+  strategy: linear
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  gather_facts: false
+  roles:
+    - { role: kubernetes-apps/loki-promtail }
+
+- hosts: kube-master[0]
+  strategy: linear
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  gather_facts: false
+  roles:
+    - { role: kubernetes-apps/kubeapps }

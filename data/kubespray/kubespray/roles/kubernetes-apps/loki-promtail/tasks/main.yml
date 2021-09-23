@@ -1,0 +1,41 @@
+---
+- name: loki-promtail | Create manifests dir
+  file:
+    path: "{{ kube_config_dir }}/addons/loki-promtail"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: copy files
+  synchronize:
+    src: "{{ role_path }}/files/"
+    dest: "{{ kube_config_dir }}/addons/loki-promtail"
+    recursive: yes
+    delete: yes
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: Create namespace
+  shell: /usr/local/bin/kubectl create ns loki-stack
+  args:
+    executable: /bin/bash
+
+- name: Deploy Loki and Promtail from local path
+  shell: /usr/local/bin/helm install loki  "{{ kube_config_dir }}/addons/loki-promtail/loki-stack" -n loki-stack
+  args:
+    executable: /bin/bash
+  register: "results"
+- debug:
+    var: results
+
+- name: Deploy Grafana from local path
+  shell: /usr/local/bin/helm install loki-grafana  "{{ kube_config_dir }}/addons/loki-promtail/loki-stack/charts/grafana"  -n loki-stack
+  args:
+    executable: /bin/bash
+  register: "results2"
+
+- debug:
+    var: results2
