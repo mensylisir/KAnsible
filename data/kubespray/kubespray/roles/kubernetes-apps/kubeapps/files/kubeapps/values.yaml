@@ -722,8 +722,8 @@ apprepository:
   ##     - jenkins
   ##
   initialRepos:
-    - name: krepo
-      url: http://192.168.80.28:18888
+    - name: repo
+      url: http://192.168.80.28:18091/repository/helmDev/
   ## @param apprepository.initialReposProxy [object] Proxy configuration to access chart repositories
   ##
   initialReposProxy:
