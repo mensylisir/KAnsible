@@ -9,7 +9,7 @@
   when:
     - inventory_hostname == groups['kube-master'][0]
 
-- name: copy files
+- name: loki-promtail | Copy files
   synchronize:
     src: "{{ role_path }}/files/"
     dest: "{{ kube_config_dir }}/addons/loki-promtail"
@@ -18,10 +18,30 @@
   when:
     - inventory_hostname == groups['kube-master'][0]
 
-- name: Create namespace
-  shell: /usr/local/bin/kubectl create ns loki-stack
-  args:
-    executable: /bin/bash
+- name: loki-promtail  | Templates list
+  set_fact:
+    loki_templates:
+      - { name: ns, file: ns.yaml, type: ns }
+
+- name: loki-promtail | Create manifests
+  template:
+    src: "{{ item.file }}.j2"
+    dest: "{{ kube_config_dir }}/addons/loki-promtail/{{ item.file }}"
+  with_items: "{{ loki_templates }}"
+  register: loki_manifests
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+- name: loki-promtail | Apply manifests
+  kube:
+    name: "{{ item.item.name }}"
+    kubectl: "{{ bin_dir }}/kubectl"
+    resource: "{{ item.item.type }}"
+    filename: "{{ kube_config_dir }}/addons/loki-promtail/{{ item.item.file }}"
+    state: "latest"
+  with_items: "{{ loki_manifests.results }}"
+  when:
+    - inventory_hostname == groups['kube-master'][0]
 
 - name: Deploy Loki and Promtail from local path
   shell: /usr/local/bin/helm install loki  "{{ kube_config_dir }}/addons/loki-promtail/loki-stack" -n loki-stack
