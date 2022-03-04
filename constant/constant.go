@@ -27,7 +27,7 @@ var (
 var (
 	BackupEtcdVars        = path.Join("data", "kubespray", "kubespray", "roles", "etcdbackup", "vars", "main.yml")
 	RestoreEtcdVars       = path.Join("data", "kubespray", "kubespray", "roles", "etcdrestore", "vars", "main.yml")
-	KubernetesClusterVars = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "group_vars", "k8s-cluster", "k8s-cluster.yml")
+	KubernetesClusterVars = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "group_vars", "k8s_cluster", "k8s-cluster.yml")
 	NfsClusterVars        = path.Join("data", "kubespray", "kubespray", "roles", "cluster-storage", "nfs", "vars", "main.yml")
 )
 

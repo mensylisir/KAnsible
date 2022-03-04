@@ -51,11 +51,11 @@
 - debug:
     var: results
 
-- name: Deploy Grafana from local path
-  shell: /usr/local/bin/helm install loki-grafana  "{{ kube_config_dir }}/addons/loki-promtail/loki-stack/charts/grafana"  -n loki-stack
-  args:
-    executable: /bin/bash
-  register: "results2"
+#- name: Deploy Grafana from local path
+#  shell: /usr/local/bin/helm install loki-grafana  "{{ kube_config_dir }}/addons/loki-promtail/loki-stack/charts/grafana"  -n loki-stack
+# args:
+#    executable: /bin/bash
+#  register: "results2"
 
-- debug:
-    var: results2
+#- debug:
+#    var: results2

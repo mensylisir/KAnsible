@@ -61,6 +61,13 @@
   when:
     - inventory_hostname == groups['kube-master'][0]
 
+- name: Create namespace
+  shell: "{{ bin_dir }}/kubectl apply -f {{ kube_config_dir }}/addons/istio/resource/istio-namespace.yaml"
+  ignore_errors: true
+  when:
+    - inventory_hostname == groups['kube-master'][0]
+
+
 - name: Deploy Istio
   shell: "{{ bin_dir }}/kubectl apply -f {{ kube_config_dir }}/addons/istio/resource/"
   ignore_errors: true

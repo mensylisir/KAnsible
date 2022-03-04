@@ -68,8 +68,8 @@ func GenChildren(nodes []*kapi.Node) map[string]interface{} {
 	kWorker["hosts"] = wHosts
 
 	var childMaster = make(map[string]interface{})
-	childMaster["kube-master"] = t
-	childMaster["kube-node"] = t
+	childMaster["kube_control_plane"] = t
+	childMaster["kube_node"] = t
 	var clusterChild = make(map[string]interface{})
 	clusterChild["children"] = childMaster
 
@@ -77,11 +77,11 @@ func GenChildren(nodes []*kapi.Node) map[string]interface{} {
 	calico["hosts"] = make(map[string]interface{})
 
 	var children = make(map[string]interface{})
-	children["kube-master"] = kMaster
-	children["kube-node"] = kWorker
+	children["kube_control_plane"] = kMaster
+	children["kube_node"] = kWorker
 	children["etcd"] = kMaster
-	children["k8s-cluster"] = clusterChild
-	children["calico-rr"] = calico
+	children["k8s_cluster"] = clusterChild
+	children["calico_rr"] = calico
 	return children
 }
 
@@ -288,27 +288,27 @@ func WriteConfig2(request *kapi.Config) error{
 			return err
 		}
 	}
-	if kubeVersion := request.GetKubeVersion(); kubeVersion != "" {
-		kubernetesClusterVars := constant.KubernetesClusterVars
-		items := make(map[string]string)
-		items["kube_version"] = kubeVersion
-		err := config.WriteConfig(kubernetesClusterVars, items)
-		if err != nil {
-			fmt.Printf("error: %v", err)
-			return err
-		}
-	}
-	if containerNetwork := request.GetContainerNetwork();containerNetwork != "" {
-		err := WriteNetworkConfig(containerNetwork)
-		if err != nil {
-			return err
-		}
-	}
-	if networkMode := request.GetNetworkMode();networkMode != "" {
-		err := WriteNetworkConfig(networkMode)
-		if err != nil {
-			return err
-		}
-	}
+	//if kubeVersion := request.GetKubeVersion(); kubeVersion != "" {
+	//	kubernetesClusterVars := constant.KubernetesClusterVars
+	//	items := make(map[string]string)
+	//	items["kube_version"] = kubeVersion
+	//	err := config.WriteConfig(kubernetesClusterVars, items)
+	//	if err != nil {
+	//		fmt.Printf("error: %v", err)
+	//		return err
+	//	}
+	//}
+	//if containerNetwork := request.GetContainerNetwork();containerNetwork != "" {
+	//	err := WriteNetworkConfig(containerNetwork)
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
+	//if networkMode := request.GetNetworkMode();networkMode != "" {
+	//	err := WriteNetworkConfig(networkMode)
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
 	return nil
 }
