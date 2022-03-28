@@ -65,8 +65,8 @@ func CreateNFS(revMsg chan string) bool {
 
 func AddNode(revMsg chan string, limit string) bool {
 	inventory := constant.HostForKubernetes
-	installScript := constant.KubernetesInstallScript
-	ok := RunPlaybook(revMsg, inventory, installScript, limit)
+	addnodeScript := constant.KubernetesAddNodeScript
+	ok := RunPlaybook(revMsg, inventory, addnodeScript, limit)
 	if ok {
 		return true
 	}

@@ -17,6 +17,7 @@ var (
 	AuthorizeKeysScript     = path.Join("data", "kubespray", "kubespray", "authorized_keys.yaml")
 	KubernetesInstallScript = path.Join("data", "kubespray", "kubespray", "cluster.yml")
 	KubernetesUpdateScript  = path.Join("data", "kubespray", "kubespray", "cluster.yml")
+	KubernetesAddNodeScript = path.Join("data", "kubespray", "kubespray", "addnode.yml")
 	KubernetesResetScript   = path.Join("data", "kubespray", "kubespray", "reset.yml")
 	BackupEtcdScript        = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
 	RestorEtcdScript        = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
