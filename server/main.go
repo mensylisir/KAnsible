@@ -110,6 +110,9 @@ func (s *server) StreamPlaybook(requests *kapi.PlaybookRequests, response kapi.A
 		go ansible.RestoreEtcd(revMsg)
 	case constant.CREATE_NFS:
 		go ansible.CreateNFS(revMsg)
+	case constant.ADD_NODE:
+		limit := requests.GetVars()[0]
+		go ansible.AddNode(revMsg, limit)
 	default:
 		errMsg := fmt.Sprintf("Unrecognized command: %v", requests.Action)
 		fmt.Println(errMsg)
@@ -144,7 +147,7 @@ func (s *server) RunPlaybook(ctx context.Context, requests *kapi.PlayRequests) (
 	result := &kapi.PlayReply{}
 	inventory := constant.HostForKubernetes
 	installScript := constant.KubernetesInstallScript
-	go ansible.RunPlaybook(revMsg, inventory, installScript)
+	go ansible.RunPlaybook(revMsg, inventory, installScript, "")
 	for {
 		data := <-revMsg
 		result.Res = data
@@ -158,19 +161,18 @@ func (s *server) RunPlaybook(ctx context.Context, requests *kapi.PlayRequests) (
 func (s *server) GenerateYaml(ctx context.Context, in *kapi.InventoryRequest) (*kapi.InventoryReply, error) {
 	err := ansible.GenHosts(in)
 	if err != nil {
-        fmt.Printf("Error: %v\n", err)
+		fmt.Printf("Error: %v\n", err)
 		return &kapi.InventoryReply{Message: "Generate hosts failure "}, err
 	}
 	err = ansible.GenYamlHost(in)
 	if err != nil {
-        fmt.Printf("Error: %v\n", err)
+		fmt.Printf("Error: %v\n", err)
 		return &kapi.InventoryReply{Message: "Generate yaml failure "}, err
 	}
 	return &kapi.InventoryReply{Message: "Generate yaml success "}, nil
 }
 
-
-func (s* server) CheckConfiguration(ctx context.Context, in *kapi.ConfigRequest) (*kapi.ConfigReply, error) {
+func (s *server) CheckConfiguration(ctx context.Context, in *kapi.ConfigRequest) (*kapi.ConfigReply, error) {
 	err := ansible.WriteConfig(in)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
@@ -178,7 +180,6 @@ func (s* server) CheckConfiguration(ctx context.Context, in *kapi.ConfigRequest)
 	}
 	return &kapi.ConfigReply{Message: "Write config success "}, nil
 }
-
 
 func main() {
 	config.GetConfig()

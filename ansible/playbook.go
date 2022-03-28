@@ -1,12 +1,12 @@
 package ansible
 
 import (
+	"fmt"
 	util "github.com/mensylisir/KAnsible/common"
 	"github.com/mensylisir/KAnsible/constant"
-	"fmt"
 )
 
-func RunPlaybook(revMsg chan string, inventory, script string) bool {
+func RunPlaybook(revMsg chan string, inventory, script string, limit string) bool {
 	ansiblePlaybookPath, err := constant.LookUpAnsiblePlaybookBinPath()
 	if err != nil {
 		errMsg := fmt.Sprintf("Cannot find ansibleplaybook: %v\n", err)
@@ -21,6 +21,10 @@ func RunPlaybook(revMsg chan string, inventory, script string) bool {
 		command = append(command, inventory)
 		command = append(command, "--become")
 		command = append(command, "--become-user=root")
+	}
+	if limit != "" {
+		command = append(command, "--limit")
+		command = append(command, limit)
 	}
 	fmt.Println(command)
 	err = util.RunCMD(revMsg, command[0], command[1:]...)

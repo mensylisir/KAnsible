@@ -7,7 +7,7 @@ import (
 func InstallKubernetes(revMsg chan string) bool {
 	inventory := constant.HostForKubernetes
 	installScript := constant.KubernetesInstallScript
-	ok := RunPlaybook(revMsg, inventory, installScript)
+	ok := RunPlaybook(revMsg, inventory, installScript, "")
 	if ok {
 		return true
 	}
@@ -17,7 +17,7 @@ func InstallKubernetes(revMsg chan string) bool {
 func ResetKubernetes(revMsg chan string) bool {
 	inventory := constant.HostForKubernetes
 	resetScript := constant.KubernetesResetScript
-	ok := RunPlaybook(revMsg, inventory, resetScript)
+	ok := RunPlaybook(revMsg, inventory, resetScript, "")
 	if ok {
 		return true
 	}
@@ -26,7 +26,7 @@ func ResetKubernetes(revMsg chan string) bool {
 
 func DistributePublicKey(revMsg chan string) bool {
 	authorizeScript := constant.AuthorizeKeysScript
-	ok := RunPlaybook(revMsg, "", authorizeScript)
+	ok := RunPlaybook(revMsg, "", authorizeScript, "")
 	if ok {
 		return true
 	}
@@ -36,7 +36,7 @@ func DistributePublicKey(revMsg chan string) bool {
 func BackupEtcd(revMsg chan string) bool {
 	inventory := constant.HostForKubernetes
 	backupEtcdScript := constant.BackupEtcdScript
-	ok := RunPlaybook(revMsg, inventory, backupEtcdScript)
+	ok := RunPlaybook(revMsg, inventory, backupEtcdScript, "")
 	if ok {
 		return true
 	}
@@ -46,7 +46,7 @@ func BackupEtcd(revMsg chan string) bool {
 func RestoreEtcd(revMsg chan string) bool {
 	inventory := constant.HostForKubernetes
 	restoreEtcdScript := constant.RestorEtcdScript
-	ok := RunPlaybook(revMsg, inventory, restoreEtcdScript)
+	ok := RunPlaybook(revMsg, inventory, restoreEtcdScript, "")
 	if ok {
 		return true
 	}
@@ -56,7 +56,17 @@ func RestoreEtcd(revMsg chan string) bool {
 func CreateNFS(revMsg chan string) bool {
 	inventory := constant.HostForKubernetes
 	createNFSScript := constant.CreateNFSScript
-	ok := RunPlaybook(revMsg, inventory, createNFSScript)
+	ok := RunPlaybook(revMsg, inventory, createNFSScript, "")
+	if ok {
+		return true
+	}
+	return false
+}
+
+func AddNode(revMsg chan string, limit string) bool {
+	inventory := constant.HostForKubernetes
+	installScript := constant.KubernetesInstallScript
+	ok := RunPlaybook(revMsg, inventory, installScript, limit)
 	if ok {
 		return true
 	}
