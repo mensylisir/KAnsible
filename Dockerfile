@@ -10,10 +10,12 @@ ENV GOPROXY https://goproxy.cn
 
 WORKDIR /build/kansible
 
-RUN    apt update && apt install wget curl ansible nano sshpass  rsync -y  \
+RUN    apt update && apt install wget curl ansible nano sshpass  rsync python3-pip -y  \
     && wget https://dl.google.com/go/${GO_PACKAGE} \
     && tar -zxvf ${GO_PACKAGE} -C /opt \
-    && apt install ansible -y
+    && apt install ansible -y \
+    && ansible-galaxy collection install kubernetes.core \
+    && pip install kubernetes
 
 COPY . .
 RUN    /opt/go/bin/go mod download \

@@ -13,16 +13,17 @@ const (
 )
 
 var (
-	AnsibleHosts            = path.Join("/", "etc", "ansible", "hosts")
-	AuthorizeKeysScript     = path.Join("data", "kubespray", "kubespray", "authorized_keys.yaml")
-	KubernetesInstallScript = path.Join("data", "kubespray", "kubespray", "cluster.yml")
-	KubernetesUpdateScript  = path.Join("data", "kubespray", "kubespray", "cluster.yml")
-	KubernetesAddNodeScript = path.Join("data", "kubespray", "kubespray", "addnode.yml")
-	KubernetesResetScript   = path.Join("data", "kubespray", "kubespray", "reset.yml")
-	BackupEtcdScript        = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
-	RestorEtcdScript        = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
-	CreateNFSScript         = path.Join("data", "kubespray", "kubespray", "nfs.yml")
-	HostForKubernetes       = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "hosts.yaml")
+	AnsibleHosts               = path.Join("/", "etc", "ansible", "hosts")
+	AuthorizeKeysScript        = path.Join("data", "kubespray", "kubespray", "authorized_keys.yaml")
+	KubernetesInstallScript    = path.Join("data", "kubespray", "kubespray", "cluster.yml")
+	KubernetesUpdateScript     = path.Join("data", "kubespray", "kubespray", "cluster.yml")
+	KubernetesAddNodeScript    = path.Join("data", "kubespray", "kubespray", "addnode.yml")
+	KubernetesRemoveNodeScript = path.Join("data", "kubespray", "kubespray", "remove-node.yml")
+	KubernetesResetScript      = path.Join("data", "kubespray", "kubespray", "reset.yml")
+	BackupEtcdScript           = path.Join("data", "kubespray", "kubespray", "etcdbackup.yml")
+	RestorEtcdScript           = path.Join("data", "kubespray", "kubespray", "etcdrestore.yml")
+	CreateNFSScript            = path.Join("data", "kubespray", "kubespray", "nfs.yml")
+	HostForKubernetes          = path.Join("data", "kubespray", "kubespray", "inventory", "mycluster", "hosts.yaml")
 )
 
 var (

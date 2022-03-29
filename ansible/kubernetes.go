@@ -77,10 +77,10 @@ func AddNode(revMsg chan string, limit string) bool {
 
 func RemoveNode(revMsg chan string, node string) bool {
 	inventory := constant.HostForKubernetes
-	addnodeScript := constant.KubernetesAddNodeScript
+	removenodeScript := constant.KubernetesRemoveNodeScript
 	vars := make(map[string]string)
 	vars["remove_node"] = node
-	ok := RunPlaybook(revMsg, inventory, addnodeScript, vars)
+	ok := RunPlaybook(revMsg, inventory, removenodeScript, vars)
 	if ok {
 		return true
 	}
