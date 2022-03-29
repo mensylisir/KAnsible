@@ -31,6 +31,8 @@ func RunPlaybook(revMsg chan string, inventory, script string, vars map[string]s
 			value = fmt.Sprintf("node=%s", value)
 			command = append(command, "-e")
 			command = append(command, value)
+			command = append(command, "-e")
+			command = append(command, "skip_confirmation=yes")
 		}
 
 	}
