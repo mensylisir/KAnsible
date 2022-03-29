@@ -113,6 +113,9 @@ func (s *server) StreamPlaybook(requests *kapi.PlaybookRequests, response kapi.A
 	case constant.ADD_NODE:
 		limit := requests.GetVars()[0]
 		go ansible.AddNode(revMsg, limit)
+	case constant.REMOVE_NODE:
+		node := requests.GetVars()[0]
+		go ansible.RemoveNode(revMsg, node)
 	default:
 		errMsg := fmt.Sprintf("Unrecognized command: %v", requests.Action)
 		fmt.Println(errMsg)
@@ -147,7 +150,7 @@ func (s *server) RunPlaybook(ctx context.Context, requests *kapi.PlayRequests) (
 	result := &kapi.PlayReply{}
 	inventory := constant.HostForKubernetes
 	installScript := constant.KubernetesInstallScript
-	go ansible.RunPlaybook(revMsg, inventory, installScript, "")
+	go ansible.RunPlaybook(revMsg, inventory, installScript, nil)
 	for {
 		data := <-revMsg
 		result.Res = data

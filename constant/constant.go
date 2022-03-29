@@ -48,6 +48,7 @@ var (
 	RESTORE_ETCD   = "etcdrestore"
 	CREATE_NFS     = "nfscreate"
 	ADD_NODE       = "addnode"
+	REMOVE_NODE    = "removenode"
 )
 
 func GetBinPath(binFile string) (string, error) {

@@ -137,6 +137,7 @@ func GenerateYamlHost(request *kapi.PlaybookRequests) error {
 func GenerateHosts(request *kapi.PlaybookRequests) error {
 	ansibleHosts := constant.AnsibleHosts
 	items := request.GetItem()
+	fmt.Println(items)
 	for _, item := range items {
 		host := ""
 		host += item.Ip + " "
@@ -194,7 +195,7 @@ func GenHosts(request *kapi.InventoryRequest) error {
 	return nil
 }
 
-func WriteConfig(request *kapi.ConfigRequest) error{
+func WriteConfig(request *kapi.ConfigRequest) error {
 	if cluster := request.GetClusterName(); cluster != "" {
 		items := make(map[string]string)
 		backupEtcdVars := constant.BackupEtcdVars
@@ -211,7 +212,7 @@ func WriteConfig(request *kapi.ConfigRequest) error{
 			return err
 		}
 	}
-	privisionerName :=  request.GetNfsProvisionerName()
+	privisionerName := request.GetNfsProvisionerName()
 	nfsServer := request.GetNfsServer()
 	nfsPath := request.GetNfsServerPath()
 	if privisionerName != "" && nfsServer != "" && nfsPath != "" {
@@ -236,13 +237,13 @@ func WriteConfig(request *kapi.ConfigRequest) error{
 			return err
 		}
 	}
-	if containerNetwork := request.GetContainerNetwork();containerNetwork != "" {
+	if containerNetwork := request.GetContainerNetwork(); containerNetwork != "" {
 		err := WriteNetworkConfig(containerNetwork)
 		if err != nil {
 			return err
 		}
 	}
-	if networkMode := request.GetNetworkMode();networkMode != "" {
+	if networkMode := request.GetNetworkMode(); networkMode != "" {
 		err := WriteNetworkConfig(networkMode)
 		if err != nil {
 			return err
@@ -251,12 +252,11 @@ func WriteConfig(request *kapi.ConfigRequest) error{
 	return nil
 }
 
-func WriteNetworkConfig(config string) error{
+func WriteNetworkConfig(config string) error {
 	return nil
 }
 
-
-func WriteConfig2(request *kapi.Config) error{
+func WriteConfig2(request *kapi.Config) error {
 	if cluster := request.GetClusterName(); cluster != "" {
 		items := make(map[string]string)
 		backupEtcdVars := constant.BackupEtcdVars
@@ -273,7 +273,7 @@ func WriteConfig2(request *kapi.Config) error{
 			return err
 		}
 	}
-	privisionerName :=  request.GetNfsProvisionerName()
+	privisionerName := request.GetNfsProvisionerName()
 	nfsServer := request.GetNfsServer()
 	nfsPath := request.GetNfsServerPath()
 	if privisionerName != "" && nfsServer != "" && nfsPath != "" {

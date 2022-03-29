@@ -6,7 +6,7 @@ import (
 	"github.com/mensylisir/KAnsible/constant"
 )
 
-func RunPlaybook(revMsg chan string, inventory, script string, limit string) bool {
+func RunPlaybook(revMsg chan string, inventory, script string, vars map[string]string) bool {
 	ansiblePlaybookPath, err := constant.LookUpAnsiblePlaybookBinPath()
 	if err != nil {
 		errMsg := fmt.Sprintf("Cannot find ansibleplaybook: %v\n", err)
@@ -22,9 +22,17 @@ func RunPlaybook(revMsg chan string, inventory, script string, limit string) boo
 		command = append(command, "--become")
 		command = append(command, "--become-user=root")
 	}
-	if limit != "" {
-		command = append(command, "--limit")
-		command = append(command, limit)
+	for key, value := range vars {
+		if key == "limit" {
+			command = append(command, "--limit")
+			command = append(command, value)
+		}
+		if key == "remove_node" {
+			value = fmt.Sprintf("node=%s", value)
+			command = append(command, "-e")
+			command = append(command, value)
+		}
+
 	}
 	fmt.Println(command)
 	err = util.RunCMD(revMsg, command[0], command[1:]...)
